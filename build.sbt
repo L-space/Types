@@ -3,6 +3,8 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 ThisBuild / organization := "eu.l-space"
 ThisBuild / scalaVersion := "2.13.0"
+ThisBuild / version ~= (version => """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
+  .findFirstIn(version).fold(version)(version.stripSuffix(_)))
 
 val settings = Seq(crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.0"))
 
