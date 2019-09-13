@@ -1,26 +1,20 @@
 package lspace.types.geo
 
+import lspace.types.geo.helper.Comparator
+
 case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
-  def intersect(that: Geometry): Boolean = that match {
-    case that: Point         => bbox.intersects(that.bbox)
-    case that: MultiPoint    => bbox.intersects(that.bbox)
-    case that: Line          => bbox.intersects(that.bbox)
-    case that: MultiLine     => bbox.intersects(that.bbox)
-    case that: Polygon       => bbox.intersects(that.bbox)
-    case that: MultiPolygon  => that.vector.exists(_.bbox.intersects(that.bbox))
-    case that: MultiGeometry => that.intersect(this)
-  }
-  def disjoint(that: Geometry): Boolean = !bbox.intersects(that.bbox)
-  def contains(that: Geometry): Boolean = bbox.contains(that.bbox)
-  def within(that: Geometry): Boolean = that match {
-    case that: Point         => false
-    case that: MultiPoint    => false
-    case that: Line          => false
-    case that: MultiLine     => false
-    case that: Polygon       => that.contains(this)
-    case that: MultiPolygon  => that.vector.exists(_.contains(this))
-    case that: MultiGeometry => that.contains(this)
-  }
+  def intersect(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.polygon.intersect(this, that)
+  def disjoint(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.polygon.disjoint(this, that)
+  def contains(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.polygon.contains(this, that)
+  def within(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.polygon.within(this, that)
 
   lazy val bbox: BBox = BBox(vector.flatMap(_.map(_.x)).min,
                              vector.flatMap(_.map(_.y)).min,
@@ -29,11 +23,17 @@ case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
 }
 
 object Polygon {
-  def apply[T](points: T*)(implicit ev: T =:= Point): Polygon = Polygon(points.asInstanceOf[Seq[Point]].toVector)
+  def apply[T](points: T*)(implicit ev: T =:= Point): Polygon =
+    Polygon(points.asInstanceOf[Seq[Point]].toVector)
   def apply[T: Numeric](points: (T, T)*)(implicit n: Numeric[T]): Polygon =
-    Polygon(points.map(t => n.toDouble(t._1) -> n.toDouble(t._2)).map(Point.toPoint).toVector)
+    Polygon(
+      points
+        .map(t => n.toDouble(t._1) -> n.toDouble(t._2))
+        .map(Point.toPoint)
+        .toVector)
 
   def apply[T](vector: Vector[T])(implicit ev: T =:= Point): Polygon =
     Polygon(Vector(vector).asInstanceOf[Vector[Vector[Point]]])
-  implicit def toVector(points: Line): Vector[Vector[Double]] = points.vector.map(Point.toVector)
+  implicit def toVector(points: Line): Vector[Vector[Double]] =
+    points.vector.map(Point.toVector)
 }

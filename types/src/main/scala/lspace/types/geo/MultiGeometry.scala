@@ -1,10 +1,20 @@
 package lspace.types.geo
 
+import lspace.types.geo.helper.Comparator
+
 case class MultiGeometry(vector: Vector[Geometry]) extends Geometry {
-  def intersect(that: Geometry): Boolean = vector.exists(geo => geo.intersect(that))
-  def disjoint(that: Geometry): Boolean  = vector.forall(geo => geo.disjoint(that))
-  def contains(that: Geometry): Boolean  = vector.forall(geo => geo.contains(that))
-  def within(that: Geometry): Boolean    = vector.forall(geo => geo.within(that))
+  def intersect(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.multigeometry.intersect(this, that)
+  def disjoint(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.multigeometry.disjoint(this, that)
+  def contains(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.multigeometry.contains(this, that)
+  def within(that: Geometry)(
+      implicit helper: Comparator = Comparator.default): Boolean =
+    helper.multigeometry.within(this, that)
 
   lazy val bbox: BBox = vector.map(_.bbox).reduce(_ + _)
 }
