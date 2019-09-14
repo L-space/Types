@@ -1,10 +1,11 @@
-dist: bionic
+dist: xenial
 language: scala
 scala:
   - 2.11.12
   - 2.12.10
   - 2.13.0
 jdk:
+  - openjdk8
   - openjdk11
 stages:
   - name: test
