@@ -4,6 +4,19 @@ import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 ThisBuild / organization := "eu.l-space"
 ThisBuild / scalaVersion := "2.13.0"
 
+inThisBuild(List(
+  organization := "eu.l-space",
+  licenses := List("MIT" -> url("https://opensource.org/licenses/MIT")),
+  developers := List(
+    Developer(
+      "thijsbroersen",
+      "Thijs Broersen",
+      "thijsbroersen@gmail.com",
+      url("https://github.com/ThijsBroersen")
+    )
+  )
+))
+
 dynverSonatypeSnapshots in ThisBuild := true
 ThisBuild / version ~= (version => """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
   .findFirstIn(version).fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
@@ -24,7 +37,8 @@ lazy val types =
     .settings(settings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0-RC2" % "test"
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0-RC2" % "test",
+      publishTo := sonatypePublishToBundle.value
     )
     .jsSettings(
       scalaJSLinkerConfig ~= { _.withOptimizer(false) },
@@ -37,7 +51,7 @@ lazy val site = (project in file("site"))
 //  .enablePlugins(MicrositesPlugin)
 //  .dependsOn(services % "compile->compile;compile->test")
 //  .settings(name := "lspace-site")
-//  .settings(skip in publish := true)
+  .settings(skip in publish := true)
 //  .settings(projectSettings)
 //  .settings(
 //    resourceGenerators in Compile += makeSettingsYml.taskValue,
