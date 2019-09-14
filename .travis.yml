@@ -16,7 +16,7 @@ jobs:
     - stage: test
       install:
         - npm install jsdom
-      script: sbt ++$TRAVIS_SCALA_VERSION test
+#      script: sbt ++$TRAVIS_SCALA_VERSION test
       cache:
         directories:
           - $HOME/.ivy2/cache
