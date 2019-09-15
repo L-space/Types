@@ -14,18 +14,20 @@ stages:
 before_cache:
   - find $HOME/.sbt -name "*.lock" -delete
   - find $HOME/.ivy2/cache -name "ivydata-*.properties" -delete
+install:
+  - npm install jsdom
 jobs:
   include:
-    - stage: test
-      install:
-        - npm install jsdom
-#      script: sbt ++$TRAVIS_SCALA_VERSION test
-      cache:
-        directories:
-          - $HOME/.ivy2/cache
-          - $HOME/.sbt
-          - $HOME/.coursier
-          - node_modules
+#    - stage: test
+#      install:
+#        - npm install jsdom
+##      script: sbt ++$TRAVIS_SCALA_VERSION test
+#      cache:
+#        directories:
+#          - $HOME/.ivy2/cache
+#          - $HOME/.sbt
+#          - $HOME/.coursier
+#          - node_modules
     - stage: release
       name: "Cross-publish to Sonatype"
       before_install: git fetch --tags
