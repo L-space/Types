@@ -11,18 +11,21 @@ stages:
   - name: test
   - name: release
     if: (branch = master AND type = push) OR (tag IS present)
+before_cache:
+  - find $HOME/.sbt -name "*.lock" -delete
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -delete
 jobs:
   include:
-#    - stage: test
-#      install:
-#        - npm install jsdom
+    - stage: test
+      install:
+        - npm install jsdom
 #      script: sbt ++$TRAVIS_SCALA_VERSION test
-#      cache:
-#        directories:
-#          - $HOME/.ivy2/cache
-#          - $HOME/.sbt
-#          - $HOME/.coursier
-#          - node_modules
+      cache:
+        directories:
+          - $HOME/.ivy2/cache
+          - $HOME/.sbt
+          - $HOME/.coursier
+          - node_modules
     - stage: release
       name: "Cross-publish to Sonatype"
       before_install: git fetch --tags
@@ -32,6 +35,3 @@ jobs:
           - $HOME/.ivy2/cache
           - $HOME/.sbt/boot
           - $HOME/.coursier
-before_cache:
-  - find $HOME/.sbt -name "*.lock" -delete
-  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -delete
