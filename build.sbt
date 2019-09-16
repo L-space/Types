@@ -1,5 +1,6 @@
 // shadow sbt-scalajs' crossProject and CrossType until Scala.js 1.0.0 is released
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+import com.jsuereth.sbtpgp.PgpKeys
 
 ThisBuild / organization := "eu.l-space"
 ThisBuild / scalaVersion := "2.13.0"
@@ -14,7 +15,10 @@ inThisBuild(List(
       "thijsbroersen@gmail.com",
       url("https://github.com/ThijsBroersen")
     )
-  )
+  ),
+  usePgpKeyHex("DE85DD673EEA38C19915897B0913D8913AB43771"),
+  useGpgPinentry := true,
+  pgpPassphrase := sys.env.get("PGP_PASSPHRASE").map(_.toCharArray())
 ))
 
 dynverSonatypeSnapshots in ThisBuild := true
@@ -48,8 +52,8 @@ lazy val types =
     )
 
 lazy val site = (project in file("site"))
-//  .enablePlugins(MicrositesPlugin)
-//  .dependsOn(services % "compile->compile;compile->test")
+  //  .enablePlugins(MicrositesPlugin)
+  //  .dependsOn(services % "compile->compile;compile->test")
   .settings(name := "types-site")
   .settings(skip in publish := true)
 //  .settings(projectSettings)
