@@ -52,6 +52,3 @@ jobs:
           - $HOME/.ivy2/cache
           - $HOME/.sbt/boot
           - $HOME/.coursier
-before_install:
-  - openssl aes-256-cbc -K $encrypted_de5ffdf9df6c_key -iv $encrypted_de5ffdf9df6c_iv -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
-  - echo $PGP_PASSPHRASE | gpg --passphrase-fd 0 --batch --yes --import .travis/secret-key.asc
