@@ -42,7 +42,9 @@ jobs:
           - node_modules
     - stage: release
       name: "Cross-publish to Sonatype"
-      before_install: git fetch --tags
+      before_install:
+        - git fetch --tags
+        - openssl aes-256-cbc -K $encrypted_<1234567890ab>_key -iv $encrypted_<1234567890ab>_iv -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
       before_script: echo $PGP_PASSPHRASE | gpg --passphrase-fd 0 --batch --yes --import .travis/secret-key.asc.enc
       script: sbt ci-release
       cache:
