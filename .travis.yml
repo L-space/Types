@@ -1,4 +1,4 @@
-dist: bionic
+dist: xenial
 language: scala
 jdk: openjdk11
 stages:
@@ -10,36 +10,36 @@ before_cache:
   - find $HOME/.ivy2/cache -name "ivydata-*.properties" -delete
 jobs:
   include:
-    - scala: 2.11.12
-      install:
-        - npm install jsdom
-      script: sbt ++$TRAVIS_SCALA_VERSION test
-      cache:
-        directories:
-          - $HOME/.ivy2/cache
-          - $HOME/.sbt
-          - $HOME/.coursier
-          - node_modules
-    - scala: 2.12.10
-      install:
-        - npm install jsdom
-      script: sbt ++$TRAVIS_SCALA_VERSION test
-      cache:
-        directories:
-          - $HOME/.ivy2/cache
-          - $HOME/.sbt
-          - $HOME/.coursier
-          - node_modules
-    - scala: 2.13.0
-      install:
-        - npm install jsdom
-      script: sbt ++$TRAVIS_SCALA_VERSION test
-      cache:
-        directories:
-          - $HOME/.ivy2/cache
-          - $HOME/.sbt
-          - $HOME/.coursier
-          - node_modules
+#    - scala: 2.11.12
+#      install:
+#        - npm install jsdom
+#      script: sbt ++$TRAVIS_SCALA_VERSION test
+#      cache:
+#        directories:
+#          - $HOME/.ivy2/cache
+#          - $HOME/.sbt
+#          - $HOME/.coursier
+#          - node_modules
+#    - scala: 2.12.10
+#      install:
+#        - npm install jsdom
+#      script: sbt ++$TRAVIS_SCALA_VERSION test
+#      cache:
+#        directories:
+#          - $HOME/.ivy2/cache
+#          - $HOME/.sbt
+#          - $HOME/.coursier
+#          - node_modules
+#    - scala: 2.13.0
+#      install:
+#        - npm install jsdom
+#      script: sbt ++$TRAVIS_SCALA_VERSION test
+#      cache:
+#        directories:
+#          - $HOME/.ivy2/cache
+#          - $HOME/.sbt
+#          - $HOME/.coursier
+#          - node_modules
     - stage: release
       name: "Cross-publish to Sonatype"
       before_install:
