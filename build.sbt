@@ -50,7 +50,7 @@ lazy val types =
 lazy val site = (project in file("site"))
 //  .enablePlugins(MicrositesPlugin)
 //  .dependsOn(services % "compile->compile;compile->test")
-//  .settings(name := "lspace-site")
+  .settings(name := "types-site")
   .settings(skip in publish := true)
 //  .settings(projectSettings)
 //  .settings(

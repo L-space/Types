@@ -1,5 +1,6 @@
-import com.typesafe.sbt.SbtPgp.autoImport._
-import com.typesafe.sbt.{GitPlugin, SbtPgp}
+import com.jsuereth.sbtpgp.SbtPgp.autoImport._
+import com.jsuereth.sbtpgp.SbtPgp
+import com.typesafe.sbt.GitPlugin
 import sbt.Keys._
 import sbt.plugins.JvmPlugin
 import sbt.{Def, Test, _}
