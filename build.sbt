@@ -1,6 +1,5 @@
 // shadow sbt-scalajs' crossProject and CrossType until Scala.js 1.0.0 is released
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
-import com.jsuereth.sbtpgp.PgpKeys
 
 ThisBuild / organization := "eu.l-space"
 ThisBuild / scalaVersion := "2.13.0"
