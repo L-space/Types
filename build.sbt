@@ -1,11 +1,11 @@
 // shadow sbt-scalajs' crossProject and CrossType until Scala.js 1.0.0 is released
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-ThisBuild / organization := "eu.l-space"
 ThisBuild / scalaVersion := "2.13.0"
 
 inThisBuild(List(
   organization := "eu.l-space",
+  homepage := Some(url("https://github.com/L-space/Types")),
   licenses := List("MIT" -> url("https://opensource.org/licenses/MIT")),
   developers := List(
     Developer(
@@ -16,9 +16,6 @@ inThisBuild(List(
     )
   )
 //  usePgpKeyHex("DE85DD673EEA38C19915897B0913D8913AB43771")
-//  useGpgPinentry := true,
-//  pgpPassphrase := sys.env.get("PGP_PASSPHRASE").map(_.toCharArray())
-
 ))
 
 dynverSonatypeSnapshots in ThisBuild := true
