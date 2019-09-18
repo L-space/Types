@@ -1,19 +1,15 @@
 package lspace.types.geo
 
-import lspace.types.geo.helper.Comparator
+import lspace.types.geo.ops.Comparator
 
 case class MultiPolygon(vector: Vector[Polygon]) extends Geometry {
-  def intersect(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.multipolygon.intersect(this, that)
-  def disjoint(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.multipolygon.disjoint(this, that)
-  def contains(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.multipolygon.contains(this, that)
-  def within(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.multipolygon.within(this, that)
 
   lazy val bbox: BBox = BBox(

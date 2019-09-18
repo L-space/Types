@@ -1,19 +1,15 @@
 package lspace.types.geo
 
-import lspace.types.geo.helper.Comparator
+import lspace.types.geo.ops.Comparator
 
 case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
-  def intersect(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.intersect(this, that)
-  def disjoint(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.disjoint(this, that)
-  def contains(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.contains(this, that)
-  def within(that: Geometry)(
-      implicit helper: Comparator = Comparator.default): Boolean =
+  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.within(this, that)
 
   lazy val bbox: BBox = BBox(vector.flatMap(_.map(_.x)).min,
