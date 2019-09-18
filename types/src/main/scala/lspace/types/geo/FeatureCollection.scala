@@ -1,3 +1,3 @@
 package lspace.types.geo
 
-case class FeatureCollection[+T <: Geometry](features: List[Feature[T]], bbox: BBox)
+case class FeatureCollection[+T <: Geometry] private (features: List[Feature[T]], bbox: Option[BBox] = None)
