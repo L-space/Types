@@ -23,7 +23,7 @@ ThisBuild / version ~= (version => """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$"""
   .findFirstIn(version).fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
 val settings = Seq(
-  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.0")
+  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
 )
 
 lazy val Types = project
