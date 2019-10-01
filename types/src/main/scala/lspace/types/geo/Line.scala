@@ -16,6 +16,8 @@ case class Line(vector: Vector[Point]) extends Geometry {
 }
 
 object Line {
+  def apply[T](points: T*)(implicit ev: T =:= Point): Line =
+    Line(points.asInstanceOf[Seq[Point]].toVector)
   def apply(points: Point*): Line = Line(points.toVector)
   implicit def toVector(points: Line): Vector[Vector[Double]] =
     points.vector.map(Point.toVector)

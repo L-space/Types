@@ -16,6 +16,8 @@ case class MultiPoint(vector: Vector[Point]) extends Geometry {
 }
 
 object MultiPoint {
+  def apply[T](points: T*)(implicit ev: T =:= Point): MultiPoint =
+    MultiPoint(points.asInstanceOf[Seq[Point]].toVector)
   def apply(points: Point*): MultiPoint = MultiPoint(points.toVector)
   implicit def toVector(point: MultiPoint): Vector[Vector[Double]] =
     point.vector.map(Point.toVector)

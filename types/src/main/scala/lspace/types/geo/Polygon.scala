@@ -3,6 +3,9 @@ package lspace.types.geo
 import lspace.types.geo.ops.Comparator
 
 case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
+  def apply[T](points: T*)(implicit ev: T =:= Point): Polygon             = Polygon.apply(points: _*)
+  def apply[T: Numeric](points: (T, T)*)(implicit n: Numeric[T]): Polygon = Polygon.apply(points: _*)
+
   def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.intersect(this, that)
   def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
