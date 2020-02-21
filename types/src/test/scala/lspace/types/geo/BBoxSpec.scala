@@ -1,8 +1,9 @@
 package lspace.types.geo
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class BBoxSpec extends WordSpec with Matchers {
+class BBoxSpec extends AnyWordSpec with Matchers {
 
   "A BBox(5,5,10,10)" should {
     "be within" in {

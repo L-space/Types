@@ -1,8 +1,9 @@
 package lspace.types.geo
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class PolygonSpec extends WordSpec with Matchers {
+class PolygonSpec extends AnyWordSpec with Matchers {
   "A Polygon((2,2),(2,6),(6,6),(6,2))" should {
     "contain Point(4,4)" in {
       Polygon((2, 2), (2, 6), (6, 6), (6, 2)) contains Point(4, 4) shouldBe true
