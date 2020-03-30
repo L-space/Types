@@ -1,29 +1,28 @@
-// shadow sbt-scalajs' crossProject and CrossType until Scala.js 1.0.0 is released
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
-
 ThisBuild / scalaVersion := "2.13.1"
 
-inThisBuild(List(
-  organization := "eu.l-space",
-  homepage := Some(url("https://github.com/L-space/Types")),
-  licenses := List("MIT" -> url("https://opensource.org/licenses/MIT")),
-  developers := List(
-    Developer(
-      "thijsbroersen",
-      "Thijs Broersen",
-      "thijsbroersen@gmail.com",
-      url("https://github.com/ThijsBroersen")
+inThisBuild(
+  List(
+    organization := "eu.l-space",
+    homepage := Some(url("https://github.com/L-space/Types")),
+    licenses := List("MIT" -> url("https://opensource.org/licenses/MIT")),
+    developers := List(
+      Developer(
+        "thijsbroersen",
+        "Thijs Broersen",
+        "thijsbroersen@gmail.com",
+        url("https://github.com/ThijsBroersen")
+      )
     )
-  )
-//  usePgpKeyHex("DE85DD673EEA38C19915897B0913D8913AB43771")
-))
+  ))
 
 dynverSonatypeSnapshots in ThisBuild := true
-ThisBuild / version ~= (version => """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
-  .findFirstIn(version).fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
+ThisBuild / version ~= (version =>
+  """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
+    .findFirstIn(version)
+    .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
 val settings = Seq(
-  crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.1")
+  crossScalaVersions := Seq("2.12.11", "2.13.1")
 )
 
 lazy val Types = project
@@ -38,7 +37,7 @@ lazy val types =
     .settings(settings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.0-RC2" % "test",
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.1" % "test",
       publishTo := sonatypePublishToBundle.value
     )
     .jsSettings(
@@ -46,39 +45,4 @@ lazy val types =
       jsEnv in Test := new org.scalajs.jsenv.nodejs.NodeJSEnv()
     )
     .jvmSettings(
-    )
-
-lazy val site = (project in file("site"))
-  //  .enablePlugins(MicrositesPlugin)
-  //  .dependsOn(services % "compile->compile;compile->test")
-  .settings(name := "types-site")
-  .settings(skip in publish := true)
-//  .settings(projectSettings)
-//  .settings(
-//    resourceGenerators in Compile += makeSettingsYml.taskValue,
-//    makeMicrosite := (makeMicrosite dependsOn makeSettingsYml).value,
-//    scalacOptions in Tut := compilerOptions
-//  )
-//  .settings(
-//    micrositeName := "L-space",
-//    micrositeDescription := "L-space, a graph computing framework for Scala",
-//    micrositeDataDirectory := (resourceManaged in Compile).value / "site" / "data",
-//    //    unmanagedResources ++= Seq(
-//    //
-//    //    ),
-//    //    micrositeDocumentationUrl := "/yoursite/docs",
-//    //    micrositeDocumentationLabelDescription := "Documentation",
-//    micrositeAuthor := "Thijs Broersen",
-//    micrositeHomepage := "https://docs.l-space.eu",
-//    micrositeOrganizationHomepage := "https://l-space.eu",
-//    //    micrositeOrganizationHomepage := "",
-//    excludeFilter in ghpagesCleanSite := //preserves github-settings for custom domain, each time CNAME is written custom domain is reset?
-//      new FileFilter{
-//        def accept(f: File) = (ghpagesRepository.value / "CNAME").getCanonicalPath == f.getCanonicalPath
-//      } || "versions.html",
-//    micrositeGithubOwner := "L-space",
-//    micrositeGithubRepo := "L-space",
-//    micrositeGitterChannelUrl := "L-space/L-space",
-//    micrositeFooterText := Some(
-//      "<b>Knowledge is Power</b> <- <i>BOOKS = KNOWLEDGE = POWER = (FORCE X DISTANCE ÷ TIME)</i>")
-//  )
+      )
