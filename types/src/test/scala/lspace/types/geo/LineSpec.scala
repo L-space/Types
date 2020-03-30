@@ -1,5 +1,6 @@
 package lspace.types.geo
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class LineSpec extends WordSpec with Matchers {}
+class LineSpec extends AnyWordSpec with Matchers {}
