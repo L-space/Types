@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.1"
+ThisBuild / scalaVersion := "2.13.3"
 
 inThisBuild(
   List(
@@ -22,7 +22,7 @@ ThisBuild / version ~= (version =>
     .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
 val settings = Seq(
-  crossScalaVersions := Seq("2.12.11", "2.13.1")
+  crossScalaVersions := Seq("2.12.12", "2.13.3")
 )
 
 lazy val Types = project
@@ -37,7 +37,7 @@ lazy val types =
     .settings(settings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.1.1" % "test",
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.0" % "test",
       publishTo := sonatypePublishToBundle.value
     )
     .jsSettings(
