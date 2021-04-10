@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.3"
+ThisBuild / scalaVersion := "2.13.5"
 
 inThisBuild(
   List(
@@ -15,19 +15,19 @@ inThisBuild(
     )
   ))
 
-dynverSonatypeSnapshots in ThisBuild := true
+(ThisBuild / dynverSonatypeSnapshots) := true
 ThisBuild / version ~= (version =>
   """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
     .findFirstIn(version)
     .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
 val settings = Seq(
-  crossScalaVersions := Seq("2.12.12", "2.13.3")
+  crossScalaVersions := Seq("2.13.5")
 )
 
 lazy val Types = project
   .in(file("."))
-  .settings(skip in publish := true)
+  .settings((publish / skip) := true)
   .aggregate(types.jvm, types.js)
 
 lazy val types =
@@ -37,12 +37,12 @@ lazy val types =
     .settings(settings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.2" % "test",
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.7" % "test",
       publishTo := sonatypePublishToBundle.value
     )
     .jsSettings(
       scalaJSLinkerConfig ~= { _.withOptimizer(false) },
-      jsEnv in Test := new org.scalajs.jsenv.nodejs.NodeJSEnv()
+      (Test / jsEnv) := new org.scalajs.jsenv.nodejs.NodeJSEnv()
     )
     .jvmSettings(
       )

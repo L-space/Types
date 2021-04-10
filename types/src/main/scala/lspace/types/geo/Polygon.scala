@@ -24,7 +24,7 @@ case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
 object Polygon {
   def apply[T](points: T*)(implicit ev: T =:= Point): Polygon =
     Polygon(points.asInstanceOf[Seq[Point]].toVector)
-  def apply[T: Numeric](points: (T, T)*)(implicit n: Numeric[T]): Polygon =
+  def apply[T](points: (T, T)*)(implicit n: Numeric[T]): Polygon =
     Polygon(
       points
         .map(t => n.toDouble(t._1) -> n.toDouble(t._2))

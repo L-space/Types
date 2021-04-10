@@ -77,7 +77,7 @@ object Comparator {
           case _ => false
         }
       def within(self: Line, that: Geometry): Boolean = that match {
-        case that: Point         => false
+        case _: Point            => false
         case that: MultiPoint    => that.vector.contains(self)
         case that: Line          => that.vector.contains(self)
         case that: MultiLine     => that.vector.exists(_.vector.contains(self))
@@ -114,9 +114,9 @@ object Comparator {
           case _ => false
         }
       def within(self: MultiLine, that: Geometry): Boolean = that match {
-        case that: Point      => false
-        case that: MultiPoint => false
-        case that: Line       => self.vector.forall(p => that.containsSlice(p.vector))
+        case _: Point      => false
+        case _: MultiPoint => false
+        case that: Line    => self.vector.forall(p => that.containsSlice(p.vector))
         case that: MultiLine =>
           self.vector.forall(p => that.vector.exists(_.vector.containsSlice(p.vector)))
         case that: Polygon => self.vector.forall(p => that.contains(p))
@@ -141,10 +141,10 @@ object Comparator {
       def contains(self: Polygon, that: Geometry): Boolean =
         self.bbox.contains(that.bbox)
       def within(self: Polygon, that: Geometry): Boolean = that match {
-        case that: Point         => false
-        case that: MultiPoint    => false
-        case that: Line          => false
-        case that: MultiLine     => false
+        case _: Point            => false
+        case _: MultiPoint       => false
+        case _: Line             => false
+        case _: MultiLine        => false
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.contains(self)
@@ -176,7 +176,7 @@ object Comparator {
           case bbox: BBox =>
             (Math.abs(bbox.center.x - self.center.x) * 2 < (bbox.width + self.width)) &&
               (Math.abs(bbox.center.y - self.center.y) * 2 < (bbox.height + self.height))
-          case geo =>
+          case _ =>
             that.bbox.intersect(self) //TODO: FIX.. this is by far not precise
         }
       def disjoint(self: BBox, that: Geometry): Boolean =
@@ -187,7 +187,7 @@ object Comparator {
         that match {
           case bbox: BBox =>
             self.left >= bbox.left && self.bottom >= bbox.bottom && self.right <= bbox.right && self.top <= bbox.top
-          case geo => false //TODO
+          case _ => false //TODO
         }
     }
   }
