@@ -32,7 +32,6 @@ stages:
   - build
   - test
   - coverage
-  - integration
   - semantic-release
   - release
 
@@ -44,6 +43,7 @@ types:build:
     changes:
       - build.sbt
       - project/*
+      - types/**/*
   except:
     - tags
 
