@@ -73,7 +73,7 @@ types:coverage:
   stage: coverage
   needs: ["types:test"]
   script:
-    - sbt clean coverage test it:test coverageReport
+    - sbt clean coverage test coverageReport
   only:
     refs:
       - merge_requests
