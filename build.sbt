@@ -6,6 +6,7 @@ import com.typesafe.sbt.packager.docker.Cmd
 import scala.util.Try
 
 ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / crossScalaVersions := Seq("2.13.5")
 
 inThisBuild(
   List(
@@ -53,10 +54,6 @@ ThisBuild / version ~= (version =>
     .findFirstIn(version)
     .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
-val settings = Seq(
-  crossScalaVersions := Seq("2.13.5")
-)
-
 Global / excludeLintKeys += aether.AetherKeys.aetherCustomHttpHeaders
 
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(
@@ -71,8 +68,6 @@ lazy val commonSettings = commonSmlBuildSettings ++ Seq(
   Compile / run / fork := true,
   //  Test / fork := true,
   //  Test / testForkedParallel := true,
-  IntegrationTest / fork := true,
-  IntegrationTest / testForkedParallel := true,
   publishTo := Some("gitlab-stream-core".at("https://gitlab.com/api/v4/projects/25800855/packages/maven")),
   aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
 )
@@ -86,7 +81,7 @@ lazy val types =
   (crossProject(JSPlatform, JVMPlatform)
     .withoutSuffixFor(JVMPlatform)
     .crossType(CrossType.Pure) in file("types"))
-    .settings(settings)
+    .settings(commonSettings)
     .settings(
       name := "types",
       libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.7" % "test",

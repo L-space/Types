@@ -19,6 +19,6 @@ addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % 
 //sbt-updates, sbt-dependency-check
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "2.0.3")
 
-addSbtPlugin("no.arktekk.sbt" % "aether-deploy" % "0.26.0")
+addSbtPlugin("no.arktekk.sbt" % "aether-deploy-signed" % "0.26.0")
 
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
