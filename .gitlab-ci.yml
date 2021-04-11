@@ -39,7 +39,7 @@ stages:
 types:build:
   stage: build
   script:
-    - sbt clean compile test:compile it:compile
+    - sbt clean compile test:compile
   only:
     changes:
       - build.sbt
@@ -54,6 +54,8 @@ types:test:
     - sbt test
   only:
     changes:
+      - build.sbt
+      - project/*
       - types/**/*
   except:
     - tags
