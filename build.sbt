@@ -1,7 +1,7 @@
 import lmcoursier.definitions.Authentication
-import sbt.librarymanagement.ivy.Credentials.toDirect
-import aether.AetherKeys._
-import com.typesafe.sbt.packager.docker.Cmd
+//import sbt.librarymanagement.ivy.Credentials.toDirect
+//import aether.AetherKeys._
+//import com.typesafe.sbt.packager.docker.Cmd
 
 import scala.util.Try
 
@@ -23,29 +23,29 @@ inThisBuild(
     )
   ))
 
-lazy val credential: Option[DirectCredentials] = Try(
-  toDirect(Credentials(Path.userHome / ".sbt" / ".credentials.gitlab"))).toOption
-val gitlabAuthenticationHeader = {
-  if (sys.env.contains("CI")) {
-    Some("Job-Token" -> sys.env("CI_JOB_TOKEN"))
-  } else {
-    credential.map(credential => "Private-Token" -> credential.passwd)
-  }
-}
-val authByRepoId = gitlabAuthenticationHeader.toVector.map { gitlabAuthenticationHeader =>
-  (
-    "gitlab-com-carexs-stream",
-    Authentication(
-      user = "",
-      password = "",
-      optional = false,
-      realmOpt = None,
-      headers = Seq(gitlabAuthenticationHeader),
-      true,
-      false
-    )
-  )
-}
+//lazy val credential: Option[DirectCredentials] = Try(
+//  toDirect(Credentials(Path.userHome / ".sbt" / ".credentials.gitlab"))).toOption
+//val gitlabAuthenticationHeader = {
+//  if (sys.env.contains("CI")) {
+//    Some("Job-Token" -> sys.env("CI_JOB_TOKEN"))
+//  } else {
+//    credential.map(credential => "Private-Token" -> credential.passwd)
+//  }
+//}
+//val authByRepoId = gitlabAuthenticationHeader.toVector.map { gitlabAuthenticationHeader =>
+//  (
+//    "gitlab-com-carexs-stream",
+//    Authentication(
+//      user = "",
+//      password = "",
+//      optional = false,
+//      realmOpt = None,
+//      headers = Seq(gitlabAuthenticationHeader),
+//      true,
+//      false
+//    )
+//  )
+//}
 
 ThisBuild / dynverSeparator := "-"
 (ThisBuild / dynverSonatypeSnapshots) := true
@@ -54,29 +54,29 @@ ThisBuild / version ~= (version =>
     .findFirstIn(version)
     .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
-Global / excludeLintKeys += aether.AetherKeys.aetherCustomHttpHeaders
+//Global / excludeLintKeys += aether.AetherKeys.aetherCustomHttpHeaders
 
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(
   publishArtifact in (Test, packageBin) := true,
   //  publishArtifact in (IntegrationTest, packageBin) := true,
-  resolvers +=
-    "gitlab-com-carexs-stream".at("https://gitlab.com/api/v4/packages/maven"),
-  csrConfiguration ~=
-    (_.withAuthenticationByRepositoryId(authByRepoId)),
-  updateClassifiers / csrConfiguration ~= (_.withAuthenticationByRepositoryId(authByRepoId)),
+//  resolvers +=
+//    "gitlab-com-carexs-stream".at("https://gitlab.com/api/v4/packages/maven"),
+//  csrConfiguration ~=
+//    (_.withAuthenticationByRepositoryId(authByRepoId)),
+//  updateClassifiers / csrConfiguration ~= (_.withAuthenticationByRepositoryId(authByRepoId)),
   updateOptions := updateOptions.value.withCachedResolution(true),
-  Compile / run / fork := true,
+  Compile / run / fork := true
   //  Test / fork := true,
   //  Test / testForkedParallel := true,
-  publishTo := Some("gitlab-stream-core".at("https://gitlab.com/api/v4/projects/25800855/packages/maven")),
-  aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
+//  publishTo := Some("gitlab-stream-core".at("https://gitlab.com/api/v4/projects/25800855/packages/maven")),
+//  aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
 )
 
 val skipInPublish = Seq(
-  (aetherDeploy / skip) := true,
+//  (aetherDeploy / skip) := true,
   (publish / skip) := true,
-  publish := {},
-  aetherDeploy := {}
+  publish := {}
+//  aetherDeploy := {}
 )
 
 //lazy val gitlabPublishSettings = Seq(
