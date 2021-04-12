@@ -72,9 +72,25 @@ lazy val commonSettings = commonSmlBuildSettings ++ Seq(
   aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
 )
 
+val skipInPublish = Seq(
+  (aetherDeploy / skip) := true,
+  (publish / skip) := true,
+  publish := {},
+  aetherDeploy := {}
+)
+
+//lazy val gitlabPublishSettings = Seq(
+//  publishTo := Some("gitlab-stream-core".at("https://gitlab.com/api/v4/projects/25800855/packages/maven")),
+//  aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
+//)
+//
+//lazy val sonatypePublishSettings = Seq(
+//  publishTo := sonatypePublishToBundle.value
+//)
+
 lazy val Types = project
   .in(file("."))
-  .settings((publish / skip) := true)
+  .settings(skipInPublish)
   .aggregate(types.jvm, types.js)
 
 lazy val types =
@@ -92,3 +108,6 @@ lazy val types =
     )
     .jvmSettings(
       )
+
+//lazy val gitlabPublish = taskKey[Unit]("Gitlab publish")
+//gitlabPublish := (Types / publish)
