@@ -103,6 +103,8 @@ semantic-release:
   image: registry.gitlab.com/thijsbroersen/semantic-release-git:latest
   stage: semantic-release
   before_script:
+    - echo $SONATYPE_USERNAME
+    - echo "$SONATYPE_USERNAME"
     #@semantic-release/gitlab
     - echo "$SSH_LSPACE_PRIVATE_KEY" > /tmp/git_deploy_key
     # Make sure only the current user can read the private key
@@ -118,6 +120,8 @@ semantic-release:
 release-packages:
   stage: release
   before_script:
+    - echo $SONATYPE_USERNAME
+    - echo "$SONATYPE_USERNAME"
     - echo $PGP_SECRET | base64 --decode | gpg --batch --import
   script:
     - sbt aetherDeploy ci-release
