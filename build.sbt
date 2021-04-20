@@ -37,7 +37,7 @@ lazy val types =
     .settings(settings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.7" % "test",
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.8" % "test",
       publishTo := sonatypePublishToBundle.value
     )
     .jsSettings(
