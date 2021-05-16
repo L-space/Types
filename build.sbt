@@ -1,12 +1,5 @@
-import lmcoursier.definitions.Authentication
-//import sbt.librarymanagement.ivy.Credentials.toDirect
-//import aether.AetherKeys._
-//import com.typesafe.sbt.packager.docker.Cmd
-
-import scala.util.Try
-
 ThisBuild / scalaVersion := "2.13.5"
-ThisBuild / crossScalaVersions := Seq("2.13.5")
+ThisBuild / crossScalaVersions := Seq("2.13.5", "3.0.0")
 
 inThisBuild(
   List(
@@ -19,74 +12,38 @@ inThisBuild(
         "Thijs Broersen",
         "thijsbroersen@gmail.com",
         url("https://gitlab.com/ThijsBroersen")
+      ),
+      Developer(
+        "thijsbroersen",
+        "Thijs Broersen",
+        "thijsbroersen@gmail.com",
+        url("https://github.com/ThijsBroersen")
       )
     )
-  ))
-
-//lazy val credential: Option[DirectCredentials] = Try(
-//  toDirect(Credentials(Path.userHome / ".sbt" / ".credentials.gitlab"))).toOption
-//val gitlabAuthenticationHeader = {
-//  if (sys.env.contains("CI")) {
-//    Some("Job-Token" -> sys.env("CI_JOB_TOKEN"))
-//  } else {
-//    credential.map(credential => "Private-Token" -> credential.passwd)
-//  }
-//}
-//val authByRepoId = gitlabAuthenticationHeader.toVector.map { gitlabAuthenticationHeader =>
-//  (
-//    "gitlab-com-carexs-stream",
-//    Authentication(
-//      user = "",
-//      password = "",
-//      optional = false,
-//      realmOpt = None,
-//      headers = Seq(gitlabAuthenticationHeader),
-//      true,
-//      false
-//    )
-//  )
-//}
+  )
+)
 
 ThisBuild / dynverSeparator := "-"
 (ThisBuild / dynverSonatypeSnapshots) := true
 ThisBuild / version ~= (version =>
   """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
     .findFirstIn(version)
-    .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
-
-//Global / excludeLintKeys += aether.AetherKeys.aetherCustomHttpHeaders
+    .fold(version)(version.stripSuffix(_) + "-SNAPSHOT")
+)
 
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(
-  publishArtifact in (Test, packageBin) := true,
+  Test / packageBin / publishArtifact := true,
   //  publishArtifact in (IntegrationTest, packageBin) := true,
-//  resolvers +=
-//    "gitlab-com-carexs-stream".at("https://gitlab.com/api/v4/packages/maven"),
-//  csrConfiguration ~=
-//    (_.withAuthenticationByRepositoryId(authByRepoId)),
-//  updateClassifiers / csrConfiguration ~= (_.withAuthenticationByRepositoryId(authByRepoId)),
   updateOptions := updateOptions.value.withCachedResolution(true),
   Compile / run / fork := true
   //  Test / fork := true,
-  //  Test / testForkedParallel := true,
-//  publishTo := Some("gitlab-stream-core".at("https://gitlab.com/api/v4/projects/25800855/packages/maven")),
-//  aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
+  //  Test / testForkedParallel := true
 )
 
 val skipInPublish = Seq(
-//  (aetherDeploy / skip) := true,
   (publish / skip) := true,
   publish := {}
-//  aetherDeploy := {}
 )
-
-//lazy val gitlabPublishSettings = Seq(
-//  publishTo := Some("gitlab-stream-core".at("https://gitlab.com/api/v4/projects/25800855/packages/maven")),
-//  aether.AetherKeys.aetherCustomHttpHeaders := gitlabAuthenticationHeader.toList.toMap
-//)
-//
-//lazy val sonatypePublishSettings = Seq(
-//  publishTo := sonatypePublishToBundle.value
-//)
 
 lazy val Types = project
   .in(file("."))
@@ -100,14 +57,11 @@ lazy val types =
     .settings(commonSettings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.7" % "test"
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.9" % "test"
     )
     .jsSettings(
       scalaJSLinkerConfig ~= { _.withOptimizer(false) },
       (Test / jsEnv) := new org.scalajs.jsenv.nodejs.NodeJSEnv()
     )
     .jvmSettings(
-      )
-
-//lazy val gitlabPublish = taskKey[Unit]("Gitlab publish")
-//gitlabPublish := (Types / publish)
+    )
