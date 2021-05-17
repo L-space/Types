@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / scalaVersion := "2.13.6"
 
 inThisBuild(
   List(
@@ -22,7 +22,7 @@ ThisBuild / version ~= (version =>
     .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
 
 val settings = Seq(
-  crossScalaVersions := Seq("2.13.5")
+  crossScalaVersions := Seq("2.13.6")
 )
 
 lazy val Types = project

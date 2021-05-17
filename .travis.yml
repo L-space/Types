@@ -1,6 +1,6 @@
 dist: bionic
 language: scala
-scala_213: &scala_213 2.13.5
+scala_213: &scala_213 2.13.6
 java_11: &java_11 openjdk11
 tests: &tests
   env: TEST="test"
