@@ -1,5 +1,5 @@
-ThisBuild / scalaVersion := "2.13.5"
-ThisBuild / crossScalaVersions := Seq("2.13.5", "3.0.0")
+ThisBuild / scalaVersion := "2.13.6"
+ThisBuild / crossScalaVersions := Seq("2.13.6", "3.0.0")
 
 inThisBuild(
   List(
@@ -22,6 +22,8 @@ inThisBuild(
     )
   )
 )
+
+//addCompilerPlugin("org.scalameta" % "semanticdb-scalac" % "4.4.18" cross CrossVersion.full)
 
 ThisBuild / dynverSeparator := "-"
 (ThisBuild / dynverSonatypeSnapshots) := true
