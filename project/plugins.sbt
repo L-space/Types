@@ -10,7 +10,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.8.0")
 
 addSbtPlugin("com.lightbend.sbt" % "sbt-proguard" % "0.4.0")
 
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.15.0")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.0.0")
 
 //sbt-scalafmt, sbt-tpolecat
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "2.0.3")
