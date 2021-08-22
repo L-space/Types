@@ -1,5 +1,4 @@
-ThisBuild / scalaVersion := "2.13.6"
-ThisBuild / crossScalaVersions := Seq("2.13.6", "3.0.0")
+ThisBuild / scalaVersion := "3.0.1"
 
 inThisBuild(
   List(
@@ -25,27 +24,24 @@ inThisBuild(
 
 //addCompilerPlugin("org.scalameta" % "semanticdb-scalac" % "4.4.18" cross CrossVersion.full)
 
-ThisBuild / dynverSeparator := "-"
-(ThisBuild / dynverSonatypeSnapshots) := true
-ThisBuild / version ~= (version =>
-  """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
-    .findFirstIn(version)
-    .fold(version)(version.stripSuffix(_) + "-SNAPSHOT")
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches :=
+  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    List("ci-release"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
 )
 
-lazy val commonSettings = commonSmlBuildSettings ++ Seq(
-  Test / packageBin / publishArtifact := true,
-  //  publishArtifact in (IntegrationTest, packageBin) := true,
-  updateOptions := updateOptions.value.withCachedResolution(true),
-  Compile / run / fork := true
-  //  Test / fork := true,
-  //  Test / testForkedParallel := true
-)
-
-val skipInPublish = Seq(
-  (publish / skip) := true,
-  publish := {}
-)
+ThisBuild / crossScalaVersions := Seq("2.13.6", "3.0.1")
+ThisBuild / githubWorkflowJavaVersions  := Seq("graalvm-ce-java16@21.1.0", "adopt@1.11.0-11")
 
 lazy val Types = project
   .in(file("."))
@@ -56,7 +52,6 @@ lazy val types =
   (crossProject(JSPlatform, JVMPlatform)
     .withoutSuffixFor(JVMPlatform)
     .crossType(CrossType.Pure) in file("types"))
-    .settings(commonSettings)
     .settings(
       name := "types",
       libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.9" % "test"
