@@ -1,12 +1,8 @@
 {
-  "repositoryUrl": "git@gitlab.com:L-space/Types.git",
+  "repositoryUrl": "git@github.com:L-space/Types.git",
   "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator"
-#    [ "@semantic-release/gitlab", {
-#      "gitlabUrl": "https://gitlab.com",
-#      "assets": [ ]
-#    } ]
   ],
   "preset": "angular"
 }
