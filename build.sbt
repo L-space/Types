@@ -45,7 +45,6 @@ ThisBuild / githubWorkflowJavaVersions  := Seq("graalvm-ce-java16@21.1.0", "adop
 
 lazy val Types = project
   .in(file("."))
-  .settings(skipInPublish)
   .aggregate(types.jvm, types.js)
 
 lazy val types =
