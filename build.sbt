@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / scalaVersion := "3.0.1"
 
 inThisBuild(
   List(
@@ -15,15 +15,24 @@ inThisBuild(
     )
   ))
 
-(ThisBuild / dynverSonatypeSnapshots) := true
-ThisBuild / version ~= (version =>
-  """(\+\d\d\d\d\d\d\d\d-\d\d\d\d)-SNAPSHOT$""".r
-    .findFirstIn(version)
-    .fold(version)(version.stripSuffix(_) + "-SNAPSHOT"))
+ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
+ThisBuild / githubWorkflowPublishTargetBranches :=
+  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
 
-val settings = Seq(
-  crossScalaVersions := Seq("2.13.5")
+ThisBuild / githubWorkflowPublish := Seq(
+  WorkflowStep.Sbt(
+    List("ci-release"),
+    env = Map(
+      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+      "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+    )
+  )
 )
+
+ThisBuild / crossScalaVersions := Seq("2.13.6", "3.0.1")
+ThisBuild / githubWorkflowJavaVersions  := Seq("graalvm-ce-java16@21.1.0", "adopt@1.11.0-11")
 
 lazy val Types = project
   .in(file("."))
@@ -34,10 +43,9 @@ lazy val types =
   (crossProject(JSPlatform, JVMPlatform)
     .withoutSuffixFor(JVMPlatform)
     .crossType(CrossType.Pure) in file("types"))
-    .settings(settings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.7" % "test",
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.9" % "test",
       publishTo := sonatypePublishToBundle.value
     )
     .jsSettings(
