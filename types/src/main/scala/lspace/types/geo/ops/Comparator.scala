@@ -13,6 +13,7 @@ object Comparator {
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.intersect(self)
+        case _                   => false
       }
       def disjoint(self: Point, that: Geometry): Boolean = !that.contains(self)
       def contains(self: Point, that: Geometry): Boolean = self == that
@@ -24,6 +25,7 @@ object Comparator {
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.contains(self)
+        case _                   => false
       }
     }
     object multipoint extends Operators[MultiPoint] {
@@ -36,6 +38,7 @@ object Comparator {
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.intersect(self)
+        case _                   => false
       }
       def disjoint(self: MultiPoint, that: Geometry): Boolean =
         !self.vector.exists(that.contains)
@@ -52,6 +55,7 @@ object Comparator {
         case that: MultiPolygon =>
           self.vector.forall(p => that.vector.exists(_.contains(p)))
         case that: MultiGeometry => that.contains(self)
+        case _                   => false
       }
     }
     object line extends Operators[Line] {
@@ -64,6 +68,7 @@ object Comparator {
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.intersect(self)
+        case _                   => false
       }
       def disjoint(self: Line, that: Geometry): Boolean =
         !that.contains(self)
@@ -84,6 +89,7 @@ object Comparator {
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.contains(self)
+        case _                   => false
       }
     }
     object multiline extends Operators[MultiLine] {
@@ -99,6 +105,7 @@ object Comparator {
         case that: MultiPolygon =>
           self.vector.exists(line => that.vector.exists(_.bbox.intersect(line.bbox)))
         case that: MultiGeometry => that.intersect(self)
+        case _                   => false
       }
       def disjoint(self: MultiLine, that: Geometry): Boolean =
         !self.vector.exists(that.contains)
@@ -123,6 +130,7 @@ object Comparator {
         case that: MultiPolygon =>
           self.vector.forall(p => that.vector.exists(_.contains(p)))
         case that: MultiGeometry => that.contains(self)
+        case _                   => false
       }
     }
     object polygon extends Operators[Polygon] {
@@ -135,6 +143,7 @@ object Comparator {
         case that: MultiPolygon =>
           that.vector.exists(_.bbox.intersect(that.bbox))
         case that: MultiGeometry => that.intersect(self)
+        case _                   => false
       }
       def disjoint(self: Polygon, that: Geometry): Boolean =
         !self.bbox.intersect(that.bbox)
@@ -148,6 +157,7 @@ object Comparator {
         case that: Polygon       => that.contains(self)
         case that: MultiPolygon  => that.vector.exists(_.contains(self))
         case that: MultiGeometry => that.contains(self)
+        case _                   => false
       }
     }
     object multipolygon extends Operators[MultiPolygon] {

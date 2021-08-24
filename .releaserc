@@ -1,0 +1,8 @@
+{
+  "repositoryUrl": "git@github.com:L-space/Types.git",
+  "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator"
+  ],
+  "preset": "angular"
+}

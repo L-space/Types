@@ -15,10 +15,12 @@ case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
   def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.within(this, that)
 
-  lazy val bbox: BBox = BBox(vector.flatMap(_.map(_.x)).min,
-                             vector.flatMap(_.map(_.y)).min,
-                             vector.flatMap(_.map(_.x)).max,
-                             vector.flatMap(_.map(_.y)).max)
+  lazy val bbox: BBox = BBox(
+    vector.flatMap(_.map(_.x)).min,
+    vector.flatMap(_.map(_.y)).min,
+    vector.flatMap(_.map(_.x)).max,
+    vector.flatMap(_.map(_.y)).max
+  )
 }
 
 object Polygon {
@@ -29,7 +31,8 @@ object Polygon {
       points
         .map(t => n.toDouble(t._1) -> n.toDouble(t._2))
         .map(Point.toPoint)
-        .toVector)
+        .toVector
+    )
 
   def apply[T](vector: Vector[T])(implicit ev: T =:= Point): Polygon =
     Polygon(Vector(vector).asInstanceOf[Vector[Vector[Point]]])
