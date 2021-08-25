@@ -17,6 +17,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+          cache: 'npm'
+      - name: Install Plugins
+        run: >
+          npm install semantic-release &&
+          npm install @semantic-release/changelog -D &&
+          npm install @semantic-release/git -D
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
