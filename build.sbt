@@ -69,7 +69,7 @@ lazy val types =
     .settings(commonSettings)
     .settings(
       name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.9" % "test"
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.10" % "test"
     )
     .jsSettings(
       scalaJSLinkerConfig ~= { _.withOptimizer(false) },
