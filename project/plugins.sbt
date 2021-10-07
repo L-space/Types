@@ -5,7 +5,7 @@ addSbtPlugin("org.scala-js"       % "sbt-scalajs"                   % "1.7.0")
 
 addSbtPlugin("com.47deg"        % "sbt-microsites" % "1.3.4")
 
-addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.4")
+addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.5")
 
 // addSbtPlugin("com.lightbend.sbt" % "sbt-proguard" % "0.4.0")
 
