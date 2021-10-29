@@ -187,7 +187,7 @@ object Comparator {
             (Math.abs(bbox.center.x - self.center.x) * 2 < (bbox.width + self.width)) &&
               (Math.abs(bbox.center.y - self.center.y) * 2 < (bbox.height + self.height))
           case _ =>
-            that.bbox.intersect(self) //TODO: FIX.. this is by far not precise
+            that.bbox.intersect(self) // TODO: FIX.. this is by far not precise
         }
       def disjoint(self: BBox, that: Geometry): Boolean =
         !intersect(self, that)
@@ -197,7 +197,7 @@ object Comparator {
         that match {
           case bbox: BBox =>
             self.left >= bbox.left && self.bottom >= bbox.bottom && self.right <= bbox.right && self.top <= bbox.top
-          case _ => false //TODO
+          case _ => false // TODO
         }
     }
   }
