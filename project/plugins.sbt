@@ -3,7 +3,7 @@ addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % "1.1.0")
 addSbtPlugin("org.scala-js"       % "sbt-scalajs"                   % "1.7.0")
 // addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % "0.4.0")
 
-addSbtPlugin("com.47deg"        % "sbt-microsites" % "1.3.4")
+addSbtPlugin("com.47deg" % "sbt-microsites" % "1.3.4")
 
 addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.9.4")
 
@@ -18,7 +18,7 @@ addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % 
 //sbt-updates, sbt-dependency-check
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "2.0.7")
 
-addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.30")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.9.32")
 
 addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.13.0")
 
