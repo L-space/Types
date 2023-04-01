@@ -3,7 +3,7 @@ package lspace.types.geo
 import lspace.types.geo.ops.Comparator
 
 case class BBox(left: Double, bottom: Double, right: Double, top: Double) extends Geometry {
-  lazy val center: Point = Point(
+  lazy val center: Point  = Point(
     if (left < right) left + width / 2 else right + width / 2,
     if (bottom < top) bottom + height / 2 else top + height / 2
   )
@@ -20,11 +20,11 @@ case class BBox(left: Double, bottom: Double, right: Double, top: Double) extend
 
   def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.bbox.intersect(this, that)
-  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     helper.bbox.disjoint(this, that)
-  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     helper.bbox.contains(this, that)
-  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean    =
     helper.bbox.within(this, that)
 
   def bbox: BBox = this

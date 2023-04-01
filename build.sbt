@@ -1,15 +1,19 @@
 import com.softwaremill.SbtSoftwareMillCommon.commonSmlBuildSettings
 
-ThisBuild / scalaVersion := "3.0.1"
-ThisBuild / crossScalaVersions := Seq("2.13.6", "3.0.1")
-ThisBuild / githubWorkflowJavaVersions  := Seq("graalvm-ce-java16@21.1.0", "adopt@1.11.0-11")
+ThisBuild / scalaVersion               := "3.2.2"
+ThisBuild / crossScalaVersions         := Seq("2.13.10", "3.2.2")
+ThisBuild / githubWorkflowJavaVersions := Seq(
+  JavaSpec.temurin("11"),
+  JavaSpec.temurin("19"),
+  JavaSpec.graalvm("22.3.0", "19")
+)
 
 inThisBuild(
   List(
     organization := "eu.l-space",
-    homepage := Some(url("https://gitlab.com/L-space/Types")),
-    licenses := List("MIT" -> url("https://opensource.org/licenses/MIT")),
-    developers := List(
+    homepage     := Some(url("https://gitlab.com/L-space/Types")),
+    licenses     := List("MIT" -> url("https://opensource.org/licenses/MIT")),
+    developers   := List(
       Developer(
         "thijsbroersen",
         "Thijs Broersen",
@@ -22,11 +26,10 @@ inThisBuild(
         "thijsbroersen@gmail.com",
         url("https://github.com/ThijsBroersen")
       )
-    ),
+    )
     // scalacOptions ++= Seq(
     //   "-Ywarn-unused"
     // ),
-    scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.5.0"
     // scalafixScalaBinaryVersion := CrossVersion.binaryScalaVersion(scalaVersion.value)
   )
 )
@@ -41,8 +44,8 @@ ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("ci-release"),
     env = Map(
-      "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
-      "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+      "PGP_PASSPHRASE"    -> "${{ secrets.PGP_PASSPHRASE }}",
+      "PGP_SECRET"        -> "${{ secrets.PGP_SECRET }}",
       "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
       "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
     )
@@ -52,10 +55,25 @@ ThisBuild / githubWorkflowPublish := Seq(
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(
   Test / packageBin / publishArtifact := true,
   //  publishArtifact in (IntegrationTest, packageBin) := true,
-  updateOptions := updateOptions.value.withCachedResolution(true),
-  Compile / run / fork := true
+  updateOptions                       := updateOptions.value.withCachedResolution(true),
+  Compile / run / fork                := true,
   //  Test / fork := true,
   //  Test / testForkedParallel := true
+  Compile / scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, n)) if n >= 13 =>
+        List(
+          "-Xsource:3"
+        )
+      case Some((3, n))            =>
+        List(
+          "-Yexplicit-nulls"
+          // "-language:experimental.genericNumberLiterals"
+          // "-language:strictEquality"
+        )
+      case _                       => Nil
+    }
+  }
 )
 
 lazy val root = project
@@ -68,8 +86,8 @@ lazy val types =
     .crossType(CrossType.Pure) in file("types"))
     .settings(commonSettings)
     .settings(
-      name := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.9" % "test"
+      name                                    := "types",
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.15" % "test"
     )
     .jsSettings(
       scalaJSLinkerConfig ~= { _.withOptimizer(false) },

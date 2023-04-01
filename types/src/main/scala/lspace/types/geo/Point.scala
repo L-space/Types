@@ -5,11 +5,11 @@ import lspace.types.geo.ops.Comparator
 case class Point(x: Double, y: Double) extends Geometry {
   def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.point.intersect(this, that)
-  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     helper.point.disjoint(this, that)
-  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     helper.point.contains(this, that)
-  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean    =
     helper.point.within(this, that)
 
   lazy val bbox: BBox = BBox(x, y, x, y)

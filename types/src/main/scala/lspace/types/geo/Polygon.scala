@@ -8,11 +8,11 @@ case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
 
   def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
     helper.polygon.intersect(this, that)
-  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     helper.polygon.disjoint(this, that)
-  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def contains(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     helper.polygon.contains(this, that)
-  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def within(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean    =
     helper.polygon.within(this, that)
 
   lazy val bbox: BBox = BBox(
@@ -24,7 +24,7 @@ case class Polygon(vector: Vector[Vector[Point]]) extends Geometry {
 }
 
 object Polygon {
-  def apply[T](points: T*)(implicit ev: T =:= Point): Polygon =
+  def apply[T](points: T*)(implicit ev: T =:= Point): Polygon    =
     Polygon(points.asInstanceOf[Seq[Point]].toVector)
   def apply[T](points: (T, T)*)(implicit n: Numeric[T]): Polygon =
     Polygon(
@@ -36,6 +36,6 @@ object Polygon {
 
   def apply[T](vector: Vector[T])(implicit ev: T =:= Point): Polygon =
     Polygon(Vector(vector).asInstanceOf[Vector[Vector[Point]]])
-  implicit def toVector(points: Line): Vector[Vector[Double]] =
+  implicit def toVector(points: Line): Vector[Vector[Double]]        =
     points.vector.map(Point.toVector)
 }

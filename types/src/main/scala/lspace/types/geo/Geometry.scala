@@ -7,7 +7,7 @@ object Geometry {
 }
 trait Geometry extends Product with Serializable {
   def intersect(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean
-  def ^(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
+  def ^(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean  =
     intersect(that)(helper)
   def disjoint(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean
   def !^(that: Geometry)(implicit helper: Comparator = Comparator.default): Boolean =
