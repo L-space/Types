@@ -1,11 +1,10 @@
 import com.softwaremill.SbtSoftwareMillCommon.commonSmlBuildSettings
 
-ThisBuild / scalaVersion               := "3.2.2"
-ThisBuild / crossScalaVersions         := Seq("2.13.10", "3.2.2")
+ThisBuild / scalaVersion               := "3.3.0"
+ThisBuild / crossScalaVersions         := Seq("2.13.11", "3.3.0")
 ThisBuild / githubWorkflowJavaVersions := Seq(
   JavaSpec.temurin("11"),
-  JavaSpec.temurin("19"),
-  JavaSpec.graalvm("22.3.0", "19")
+  JavaSpec.temurin("17"),
 )
 
 inThisBuild(
@@ -87,7 +86,7 @@ lazy val types =
     .settings(commonSettings)
     .settings(
       name                                    := "types",
-      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.15" % "test"
+      libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.16" % "test"
     )
     .jsSettings(
       scalaJSLinkerConfig ~= { _.withOptimizer(false) },
